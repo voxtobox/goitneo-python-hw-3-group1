@@ -1,4 +1,6 @@
-from models import AddressBook, Record, ContactNotFoundError, PhoneNotFoundError, IncorrectFormatException
+from models import AddressBook, Record
+from models import ContactNotFoundError, IncorrectFormatException
+
 
 def input_error(func):
     def inner(*args, **kwargs):
@@ -17,10 +19,12 @@ def input_error(func):
 
     return inner
 
+
 def parse_input(user_input):
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
     return cmd, *args
+
 
 @input_error
 def add_contact(args, book: AddressBook):
@@ -29,6 +33,7 @@ def add_contact(args, book: AddressBook):
     contact.add_phone(phone)
     book.add_record(contact)
     return 'Contact added.'
+
 
 @input_error
 def change_contact(args, book: AddressBook):
@@ -39,6 +44,7 @@ def change_contact(args, book: AddressBook):
     else:
         raise ContactNotFoundError
 
+
 @input_error
 def show_phone(args, book: AddressBook):
     name = args[0]
@@ -47,8 +53,10 @@ def show_phone(args, book: AddressBook):
     else:
         raise ContactNotFoundError
 
+
 def show_all(book):
     return str(book)
+
 
 @input_error
 def add_contact_birthday(args, book: AddressBook):
@@ -59,6 +67,7 @@ def add_contact_birthday(args, book: AddressBook):
     else:
         raise ContactNotFoundError
 
+
 @input_error
 def show_contact_birthday(args, book: AddressBook):
     name = args[0]
@@ -67,13 +76,14 @@ def show_contact_birthday(args, book: AddressBook):
     else:
         raise ContactNotFoundError
 
+
 def show_birthdays_this_week(book: AddressBook):
     return book.get_birthdays_per_week()
 
 
 def main():
     book = AddressBook()
-    
+
     print("Welcome to the assistant bot!")
     while True:
         user_input = input('Enter a command: ')
